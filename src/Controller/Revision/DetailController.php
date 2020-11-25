@@ -6,7 +6,6 @@ namespace EMS\CoreBundle\Controller\Revision;
 
 use Doctrine\ORM\EntityManager;
 use EMS\CommonBundle\Elasticsearch\Response\Response as CommonResponse;
-use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CommonBundle\Storage\NotFoundException;
 use EMS\CoreBundle\Entity\ContentType;
@@ -19,6 +18,7 @@ use EMS\CoreBundle\Repository\EnvironmentRepository;
 use EMS\CoreBundle\Repository\RevisionRepository;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\DataService;
+use EMS\CoreBundle\Service\Revision\LoggingContext;
 use EMS\CoreBundle\Service\SearchService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -118,37 +118,17 @@ class DetailController extends AbstractController
                 $compareData = $compareRevision->getRawData();
                 if ($revision->getContentType() === $compareRevision->getContentType() && $revision->getOuuid() == $compareRevision->getOuuid()) {
                     if ($compareRevision->getCreated() <= $revision->getCreated()) {
-                        $this->logger->notice('log.data.revision.compare', [
-                            EmsFields::LOG_OUUID_FIELD => $revision->getOuuid(),
-                            EmsFields::LOG_CONTENTTYPE_FIELD => $revision->getContentTypeName(),
-                            EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
-                            'compare_revision_id' => $compareRevision->getId(),
-                        ]);
+                        $this->logger->notice('log.data.revision.compare', LoggingContext::compare($revision, $compareRevision));
                     } else {
-                        $this->logger->warning('log.data.revision.compare_more_recent', [
-                            EmsFields::LOG_OUUID_FIELD => $revision->getOuuid(),
-                            EmsFields::LOG_CONTENTTYPE_FIELD => $revision->getContentTypeName(),
-                            EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
-                            'compare_revision_id' => $compareRevision->getId(),
-                        ]);
+                        $this->logger->warning('log.data.revision.compare_more_recent', LoggingContext::compare($revision, $compareRevision));
                     }
                 } else {
-                    $this->logger->notice('log.data.document.compare', [
-                        EmsFields::LOG_OUUID_FIELD => $revision->getOuuid(),
-                        EmsFields::LOG_CONTENTTYPE_FIELD => $revision->getContentTypeName(),
-                        EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
-                        'compare_contenttype' => $compareRevision->getContentTypeName(),
-                        'compare_ouuid' => $compareRevision->getOuuid(),
-                        'compare_revision_id' => $compareRevision->getId(),
-                    ]);
+                    $this->logger->notice('log.data.document.compare', LoggingContext::compare($revision, $compareRevision));
                 }
             } catch (\Throwable $e) {
-                $this->logger->warning('log.data.revision.compare_revision_not_found', [
-                    EmsFields::LOG_OUUID_FIELD => $revision->getOuuid(),
-                    EmsFields::LOG_CONTENTTYPE_FIELD => $revision->getContentTypeName(),
-                    EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
+                $this->logger->warning('log.data.revision.compare_revision_not_found', LoggingContext::read($revision, [
                     'compare_revision_id' => $compareId,
-                ]);
+                ]));
             }
         }
 
@@ -158,7 +138,10 @@ class DetailController extends AbstractController
 
         $this->dataService->testIntegrityInIndexes($revision);
 
-        $this->loadAutoSavedVersion($revision, $this->logger);
+        if (null != $revision->getAutoSave()) {
+            $revision->setRawData($revision->getAutoSave());
+            $this->logger->warning('log.data.revision.load_from_auto_save', LoggingContext::read($revision));
+        }
 
         $page = $request->query->get('page', 1);
 
@@ -218,18 +201,5 @@ class DetailController extends AbstractController
             'compareId' => $compareId,
             'referrersForm' => $searchForm,
         ]);
-    }
-
-    private function loadAutoSavedVersion(Revision $revision, LoggerInterface $logger): void
-    {
-        if (null != $revision->getAutoSave()) {
-            $revision->setRawData($revision->getAutoSave());
-            $logger->warning('log.data.revision.load_from_auto_save', [
-                EmsFields::LOG_CONTENTTYPE_FIELD => $revision->getContentTypeName(),
-                EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_READ,
-                EmsFields::LOG_OUUID_FIELD => $revision->getOuuid(),
-                EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
-            ]);
-        }
     }
 }
