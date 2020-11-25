@@ -1,36 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Access to constant SETS on an unknown class Rector\\\\Core\\\\Configuration\\\\Option\\.$#"
-			count: 1
-			path: rector.php
-
-		-
-			message: "#^Access to constant DEAD_CODE on an unknown class Rector\\\\Set\\\\ValueObject\\\\SetList\\.$#"
-			count: 1
-			path: rector.php
-
-		-
-			message: "#^Access to constant PHP_VERSION_FEATURES on an unknown class Rector\\\\Core\\\\Configuration\\\\Option\\.$#"
-			count: 1
-			path: rector.php
-
-		-
-			message: "#^Access to constant PATHS on an unknown class Rector\\\\Core\\\\Configuration\\\\Option\\.$#"
-			count: 1
-			path: rector.php
-
-		-
-			message: "#^Access to constant EXCLUDE_PATHS on an unknown class Rector\\\\Core\\\\Configuration\\\\Option\\.$#"
-			count: 1
-			path: rector.php
-
-		-
-			message: "#^Caught class EMS\\\\CommonBundle\\\\Elasticsearch\\\\Exception\\\\NotFoundException not found\\.$#"
-			count: 1
-			path: src/Command/RecomputeCommand.php
-
-		-
 			message: "#^Cannot call method getManaged\\(\\) on EMS\\\\CoreBundle\\\\Entity\\\\Environment\\|null\\.$#"
 			count: 6
 			path: src/Controller/ContentManagement/CrudController.php
@@ -76,71 +46,6 @@ parameters:
 			path: src/Controller/ContentManagement/DataController.php
 
 		-
-			message: "#^Cannot call method getContentType\\(\\) on object\\|null\\.$#"
-			count: 5
-			path: src/Controller/ContentManagement/DataController.php
-
-		-
-			message: "#^Cannot call method getOuuid\\(\\) on object\\|null\\.$#"
-			count: 5
-			path: src/Controller/ContentManagement/DataController.php
-
-		-
-			message: "#^Cannot call method getCreated\\(\\) on object\\|null\\.$#"
-			count: 1
-			path: src/Controller/ContentManagement/DataController.php
-
-		-
-			message: "#^Cannot call method getName\\(\\) on EMS\\\\CoreBundle\\\\Entity\\\\ContentType\\|null\\.$#"
-			count: 21
-			path: src/Controller/ContentManagement/DataController.php
-
-		-
-			message: "#^Cannot call method getId\\(\\) on object\\|null\\.$#"
-			count: 4
-			path: src/Controller/ContentManagement/DataController.php
-
-		-
-			message: "#^Call to an undefined method object\\:\\:getContentType\\(\\)\\.$#"
-			count: 2
-			path: src/Controller/ContentManagement/DataController.php
-
-		-
-			message: "#^Call to an undefined method object\\:\\:getDeleted\\(\\)\\.$#"
-			count: 1
-			path: src/Controller/ContentManagement/DataController.php
-
-		-
-			message: "#^Call to an undefined method object\\:\\:getOuuid\\(\\)\\.$#"
-			count: 1
-			path: src/Controller/ContentManagement/DataController.php
-
-		-
-			message: "#^Parameter \\#1 \\$revision of method EMS\\\\CoreBundle\\\\Service\\\\DataService\\:\\:testIntegrityInIndexes\\(\\) expects EMS\\\\CoreBundle\\\\Entity\\\\Revision, object given\\.$#"
-			count: 1
-			path: src/Controller/ContentManagement/DataController.php
-
-		-
-			message: "#^Parameter \\#1 \\$revision of method EMS\\\\CoreBundle\\\\Controller\\\\ContentManagement\\\\DataController\\:\\:loadAutoSavedVersion\\(\\) expects EMS\\\\CoreBundle\\\\Entity\\\\Revision, object given\\.$#"
-			count: 1
-			path: src/Controller/ContentManagement/DataController.php
-
-		-
-			message: "#^Parameter \\#1 \\$defaultEnv of method EMS\\\\CoreBundle\\\\Repository\\\\EnvironmentRepository\\:\\:findAvailableEnvironements\\(\\) expects EMS\\\\CoreBundle\\\\Entity\\\\Environment, EMS\\\\CoreBundle\\\\Entity\\\\Environment\\|null given\\.$#"
-			count: 1
-			path: src/Controller/ContentManagement/DataController.php
-
-		-
-			message: "#^Call to an undefined method object\\:\\:getRawData\\(\\)\\.$#"
-			count: 1
-			path: src/Controller/ContentManagement/DataController.php
-
-		-
-			message: "#^Call to an undefined method object\\:\\:getObject\\(\\)\\.$#"
-			count: 1
-			path: src/Controller/ContentManagement/DataController.php
-
-		-
 			message: "#^Argument of an invalid type array\\|bool supplied for foreach, only iterables are supported\\.$#"
 			count: 1
 			path: src/Controller/ContentManagement/DataController.php
@@ -153,6 +58,11 @@ parameters:
 		-
 			message: "#^Parameter \\#2 \\$contentType of method EMS\\\\CoreBundle\\\\Service\\\\DataService\\:\\:getRevisionByEnvironment\\(\\) expects EMS\\\\CoreBundle\\\\Entity\\\\ContentType, EMS\\\\CoreBundle\\\\Entity\\\\ContentType\\|null given\\.$#"
 			count: 1
+			path: src/Controller/ContentManagement/DataController.php
+
+		-
+			message: "#^Cannot call method getName\\(\\) on EMS\\\\CoreBundle\\\\Entity\\\\ContentType\\|null\\.$#"
+			count: 17
 			path: src/Controller/ContentManagement/DataController.php
 
 		-
@@ -373,11 +283,6 @@ parameters:
 		-
 			message: "#^Cannot call method getUsername\\(\\) on object\\|null\\.$#"
 			count: 1
-			path: src/Controller/ElasticsearchController.php
-
-		-
-			message: "#^Call to an undefined method EMS\\\\CommonBundle\\\\Search\\\\Search\\:\\:addTermsAggregation\\(\\)\\.$#"
-			count: 2
 			path: src/Controller/ElasticsearchController.php
 
 		-
@@ -8976,11 +8881,6 @@ parameters:
 			path: src/Service/ContentTypeService.php
 
 		-
-			message: "#^Call to an undefined method EMS\\\\CommonBundle\\\\Search\\\\Search\\:\\:addTermsAggregation\\(\\)\\.$#"
-			count: 1
-			path: src/Service/ContentTypeService.php
-
-		-
 			message: "#^Property EMS\\\\CoreBundle\\\\Service\\\\DataService\\:\\:\\$cacheBusinessKey type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Service/DataService.php
@@ -9641,16 +9541,6 @@ parameters:
 			path: src/Service/ElasticsearchService.php
 
 		-
-			message: "#^Instantiated class EMS\\\\CommonBundle\\\\Elasticsearch\\\\Exception\\\\NotSingleResultException not found\\.$#"
-			count: 2
-			path: src/Service/ElasticsearchService.php
-
-		-
-			message: "#^Throwing object of an unknown class EMS\\\\CommonBundle\\\\Elasticsearch\\\\Exception\\\\NotSingleResultException\\.$#"
-			count: 2
-			path: src/Service/ElasticsearchService.php
-
-		-
 			message: "#^Method EMS\\\\CoreBundle\\\\Service\\\\ElasticsearchService\\:\\:convertMapping\\(\\) has parameter \\$in with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Service/ElasticsearchService.php
@@ -9819,66 +9709,6 @@ parameters:
 			message: "#^Method EMS\\\\CoreBundle\\\\Service\\\\EnvironmentService\\:\\:getAllInMyCircle\\(\\) has no return typehint specified\\.$#"
 			count: 1
 			path: src/Service/EnvironmentService.php
-
-		-
-			message: "#^Call to an undefined method EMS\\\\CommonBundle\\\\Storage\\\\StorageManager\\:\\:getBase64\\(\\)\\.$#"
-			count: 1
-			path: src/Service/FileService.php
-
-		-
-			message: "#^Call to an undefined method EMS\\\\CommonBundle\\\\Storage\\\\StorageManager\\:\\:getHealthStatuses\\(\\)\\.$#"
-			count: 1
-			path: src/Service/FileService.php
-
-		-
-			message: "#^Instantiated class EMS\\\\CommonBundle\\\\Storage\\\\SizeMismatchException not found\\.$#"
-			count: 2
-			path: src/Service/FileService.php
-
-		-
-			message: "#^Throwing object of an unknown class EMS\\\\CommonBundle\\\\Storage\\\\SizeMismatchException\\.$#"
-			count: 2
-			path: src/Service/FileService.php
-
-		-
-			message: "#^Access to undefined constant EMS\\\\CommonBundle\\\\Storage\\\\Service\\\\StorageInterface\\:\\:STORAGE_USAGE_ASSET\\.$#"
-			count: 4
-			path: src/Service/FileService.php
-
-		-
-			message: "#^Call to an undefined method EMS\\\\CommonBundle\\\\Storage\\\\StorageManager\\:\\:getSize\\(\\)\\.$#"
-			count: 1
-			path: src/Service/FileService.php
-
-		-
-			message: "#^Call to an undefined method EMS\\\\CommonBundle\\\\Storage\\\\StorageManager\\:\\:addChunk\\(\\)\\.$#"
-			count: 1
-			path: src/Service/FileService.php
-
-		-
-			message: "#^Call to an undefined method EMS\\\\CommonBundle\\\\Storage\\\\StorageManager\\:\\:finalizeUpload\\(\\)\\.$#"
-			count: 1
-			path: src/Service/FileService.php
-
-		-
-			message: "#^Call to an undefined method EMS\\\\CommonBundle\\\\Storage\\\\StorageManager\\:\\:saveFile\\(\\)\\.$#"
-			count: 2
-			path: src/Service/FileService.php
-
-		-
-			message: "#^Instantiated class EMS\\\\CommonBundle\\\\Storage\\\\HashMismatchException not found\\.$#"
-			count: 2
-			path: src/Service/FileService.php
-
-		-
-			message: "#^Throwing object of an unknown class EMS\\\\CommonBundle\\\\Storage\\\\HashMismatchException\\.$#"
-			count: 2
-			path: src/Service/FileService.php
-
-		-
-			message: "#^Access to undefined constant EMS\\\\CommonBundle\\\\Storage\\\\Service\\\\StorageInterface\\:\\:STORAGE_USAGE_BACKUP\\.$#"
-			count: 1
-			path: src/Service/FileService.php
 
 		-
 			message: "#^Property EMS\\\\CoreBundle\\\\Service\\\\HelperService\\:\\:\\$pagingSize has no typehint specified\\.$#"
@@ -10141,21 +9971,6 @@ parameters:
 			path: src/Service/NotificationService.php
 
 		-
-			message: "#^Call to an undefined method EMS\\\\CommonBundle\\\\Service\\\\ElasticaService\\:\\:generateTermsSearch\\(\\)\\.$#"
-			count: 1
-			path: src/Service/ObjectChoiceCacheService.php
-
-		-
-			message: "#^Call to an undefined method EMS\\\\CommonBundle\\\\Service\\\\ElasticaService\\:\\:getBoolQuery\\(\\)\\.$#"
-			count: 1
-			path: src/Service/ObjectChoiceCacheService.php
-
-		-
-			message: "#^Call to an undefined method EMS\\\\CommonBundle\\\\Service\\\\ElasticaService\\:\\:getTermsQuery\\(\\)\\.$#"
-			count: 1
-			path: src/Service/ObjectChoiceCacheService.php
-
-		-
 			message: "#^Property EMS\\\\CoreBundle\\\\Service\\\\PublishService\\:\\:\\$lockTime has no typehint specified\\.$#"
 			count: 1
 			path: src/Service/PublishService.php
@@ -10334,41 +10149,6 @@ parameters:
 			message: "#^Method EMS\\\\CoreBundle\\\\Service\\\\SearchFieldOptionService\\:\\:getEntityName\\(\\) has no return typehint specified\\.$#"
 			count: 1
 			path: src/Service/SearchFieldOptionService.php
-
-		-
-			message: "#^Call to an undefined method EMS\\\\CommonBundle\\\\Service\\\\ElasticaService\\:\\:getBoolQuery\\(\\)\\.$#"
-			count: 1
-			path: src/Service/SearchService.php
-
-		-
-			message: "#^Call to an undefined method EMS\\\\CommonBundle\\\\Service\\\\ElasticaService\\:\\:generateTermsSearch\\(\\)\\.$#"
-			count: 1
-			path: src/Service/SearchService.php
-
-		-
-			message: "#^Caught class EMS\\\\CommonBundle\\\\Elasticsearch\\\\Exception\\\\NotSingleResultException not found\\.$#"
-			count: 1
-			path: src/Service/SearchService.php
-
-		-
-			message: "#^Call to method getTotal\\(\\) on an unknown class EMS\\\\CommonBundle\\\\Elasticsearch\\\\Exception\\\\NotSingleResultException\\.$#"
-			count: 1
-			path: src/Service/SearchService.php
-
-		-
-			message: "#^Instantiated class EMS\\\\CommonBundle\\\\Elasticsearch\\\\Exception\\\\NotFoundException not found\\.$#"
-			count: 1
-			path: src/Service/SearchService.php
-
-		-
-			message: "#^Throwing object of an unknown class EMS\\\\CommonBundle\\\\Elasticsearch\\\\Exception\\\\NotFoundException\\.$#"
-			count: 1
-			path: src/Service/SearchService.php
-
-		-
-			message: "#^Throwing object of an unknown class EMS\\\\CommonBundle\\\\Elasticsearch\\\\Exception\\\\NotSingleResultException\\.$#"
-			count: 1
-			path: src/Service/SearchService.php
 
 		-
 			message: "#^Method EMS\\\\CoreBundle\\\\Service\\\\SortOptionService\\:\\:getRepositoryIdentifier\\(\\) has no return typehint specified\\.$#"
@@ -10606,16 +10386,6 @@ parameters:
 			path: src/Twig/AppExtension.php
 
 		-
-			message: "#^Call to an undefined method EMS\\\\CommonBundle\\\\Service\\\\ElasticaService\\:\\:generateTermsSearch\\(\\)\\.$#"
-			count: 2
-			path: src/Twig/AppExtension.php
-
-		-
-			message: "#^Caught class EMS\\\\CommonBundle\\\\Elasticsearch\\\\Exception\\\\NotSingleResultException not found\\.$#"
-			count: 2
-			path: src/Twig/AppExtension.php
-
-		-
 			message: "#^Property EMS\\\\CoreBundle\\\\Validator\\\\Constraints\\\\AliasName\\:\\:\\$invalid has no typehint specified\\.$#"
 			count: 1
 			path: src/Validator/Constraints/AliasName.php
@@ -10624,89 +10394,4 @@ parameters:
 			message: "#^Method EMS\\\\CoreBundle\\\\Validator\\\\Constraints\\\\AliasNameValidator\\:\\:validate\\(\\) has no return typehint specified\\.$#"
 			count: 1
 			path: src/Validator/Constraints/AliasNameValidator.php
-
-		-
-			message: "#^Method EMS\\\\CoreBundle\\\\Tests\\\\ContentTransformer\\\\HtmlStylesRemoverTest\\:\\:assertEqualsInputOutPut\\(\\) has no return typehint specified\\.$#"
-			count: 1
-			path: tests/ContentTransformer/HtmlStylesRemoverTest.php
-
-		-
-			message: "#^Method EMS\\\\CoreBundle\\\\Tests\\\\ContentTransformer\\\\HtmlStylesRemoverTest\\:\\:assertEqualsInputOutPut\\(\\) has parameter \\$input with no typehint specified\\.$#"
-			count: 1
-			path: tests/ContentTransformer/HtmlStylesRemoverTest.php
-
-		-
-			message: "#^Method EMS\\\\CoreBundle\\\\Tests\\\\ContentTransformer\\\\HtmlStylesRemoverTest\\:\\:assertEqualsInputOutPut\\(\\) has parameter \\$output with no typehint specified\\.$#"
-			count: 1
-			path: tests/ContentTransformer/HtmlStylesRemoverTest.php
-
-		-
-			message: "#^Method EMS\\\\CoreBundle\\\\Tests\\\\ContentTransformer\\\\HtmlStylesRemoverTest\\:\\:testRemoveSimpleInline\\(\\) has no return typehint specified\\.$#"
-			count: 1
-			path: tests/ContentTransformer/HtmlStylesRemoverTest.php
-
-		-
-			message: "#^Method EMS\\\\CoreBundle\\\\Tests\\\\ContentTransformer\\\\HtmlStylesRemoverTest\\:\\:testRemoveSimpleBlock\\(\\) has no return typehint specified\\.$#"
-			count: 1
-			path: tests/ContentTransformer/HtmlStylesRemoverTest.php
-
-		-
-			message: "#^Method EMS\\\\CoreBundle\\\\Tests\\\\ContentTransformer\\\\HtmlStylesRemoverTest\\:\\:testInlineNestedInAlertBlock\\(\\) has no return typehint specified\\.$#"
-			count: 1
-			path: tests/ContentTransformer/HtmlStylesRemoverTest.php
-
-		-
-			message: "#^Method EMS\\\\CoreBundle\\\\Tests\\\\ContentTransformer\\\\HtmlStylesRemoverTest\\:\\:testBlockNestedInReadmoreBlock\\(\\) has no return typehint specified\\.$#"
-			count: 1
-			path: tests/ContentTransformer/HtmlStylesRemoverTest.php
-
-		-
-			message: "#^Method EMS\\\\CoreBundle\\\\Tests\\\\ContentTransformer\\\\HtmlStylesRemoverTest\\:\\:testSpanToRemoveFollowedByEmOrStrong\\(\\) has no return typehint specified\\.$#"
-			count: 1
-			path: tests/ContentTransformer/HtmlStylesRemoverTest.php
-
-		-
-			message: "#^Method EMS\\\\CoreBundle\\\\Tests\\\\ContentTransformer\\\\HtmlStylesRemoverTest\\:\\:testSpanToRemoveWithStrongInsideIt\\(\\) has no return typehint specified\\.$#"
-			count: 1
-			path: tests/ContentTransformer/HtmlStylesRemoverTest.php
-
-		-
-			message: "#^Method EMS\\\\CoreBundle\\\\Tests\\\\ContentTransformer\\\\HtmlStylesRemoverTest\\:\\:testDivToRemoveWithTagsInsideIt\\(\\) has no return typehint specified\\.$#"
-			count: 1
-			path: tests/ContentTransformer/HtmlStylesRemoverTest.php
-
-		-
-			message: "#^Method EMS\\\\CoreBundle\\\\Tests\\\\ContentTransformer\\\\HtmlStylesRemoverTest\\:\\:testDivToRemoveWithSpanToRemoveInsideItWithOtherTags\\(\\) has no return typehint specified\\.$#"
-			count: 1
-			path: tests/ContentTransformer/HtmlStylesRemoverTest.php
-
-		-
-			message: "#^Method EMS\\\\CoreBundle\\\\Tests\\\\ContentTransformer\\\\HtmlStylesRemoverTest\\:\\:testDivtoRemoveWithSpanToRemoveInsideItWithOtherTagsBis\\(\\) has no return typehint specified\\.$#"
-			count: 1
-			path: tests/ContentTransformer/HtmlStylesRemoverTest.php
-
-		-
-			message: "#^Method EMS\\\\CoreBundle\\\\Tests\\\\ContentTransformer\\\\HtmlStylesRemoverTest\\:\\:testSpanToRemoveWithAnotherSpanInsideIt\\(\\) has no return typehint specified\\.$#"
-			count: 1
-			path: tests/ContentTransformer/HtmlStylesRemoverTest.php
-
-		-
-			message: "#^Method EMS\\\\CoreBundle\\\\Tests\\\\ContentTransformer\\\\HtmlStylesRemoverTest\\:\\:testClassRemovableStyleWithinBulletPoints\\(\\) has no return typehint specified\\.$#"
-			count: 1
-			path: tests/ContentTransformer/HtmlStylesRemoverTest.php
-
-		-
-			message: "#^Method EMS\\\\CoreBundle\\\\Tests\\\\ContentTransformer\\\\HtmlStylesRemoverTest\\:\\:testClassRemovableStyleWithinBulletPoints2\\(\\) has no return typehint specified\\.$#"
-			count: 1
-			path: tests/ContentTransformer/HtmlStylesRemoverTest.php
-
-		-
-			message: "#^Method EMS\\\\CoreBundle\\\\Tests\\\\ContentTransformer\\\\HtmlStylesRemoverTest\\:\\:testClassRemovableStyleWithinTable\\(\\) has no return typehint specified\\.$#"
-			count: 1
-			path: tests/ContentTransformer/HtmlStylesRemoverTest.php
-
-		-
-			message: "#^Method EMS\\\\CoreBundle\\\\Tests\\\\Controller\\\\DefaultControllerTest\\:\\:testIndex\\(\\) has no return typehint specified\\.$#"
-			count: 1
-			path: tests/Controller/DefaultControllerTest.php
 

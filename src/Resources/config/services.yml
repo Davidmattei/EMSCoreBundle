@@ -759,8 +759,7 @@ services:
     EMS\CoreBundle\Controller\Revision\EditController:
         arguments: [ '@ems.service.data', '@logger', '@ems.service.publish', '@ems.service.revision', '@translator', '@ems.service.wysiwyg_styles_set']
     EMS\CoreBundle\Controller\Revision\DetailController:
-        arguments: [ '@ems.service.data', '@ems.service.contenttype']
-        tags: ['controller.service_arguments']
+        arguments: [ '@ems.service.data', '@ems.service.contenttype', '@logger', '@ems.service.search', '@ems_common.service.elastica']
     EMS\CoreBundle\Controller\Revision\JsonMenuNestedController:
         arguments: [ '@ems.service.revision', '@doctrine' ]
     EMS\CoreBundle\Controller\AuthTokenController:

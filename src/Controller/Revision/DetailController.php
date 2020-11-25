@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Controller\Revision;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use EMS\CommonBundle\Elasticsearch\Response\Response as CommonResponse;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Service\ElasticaService;
+use EMS\CommonBundle\Storage\NotFoundException;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Form\Search;
 use EMS\CoreBundle\Entity\Form\SearchFilter;
@@ -34,28 +33,30 @@ class DetailController extends AbstractController
     private $dataService;
     /** @var ContentTypeService */
     private $contentTypeService;
+    /** @var LoggerInterface */
+    private $logger;
+    /** @var SearchService */
+    private $searchService;
+    /** @var ElasticaService */
+    private $elasticaService;
 
-    public function __construct(DataService $dataService, ContentTypeService $contentTypeService)
+    public function __construct(DataService $dataService, ContentTypeService $contentTypeService, LoggerInterface $logger, SearchService $searchService, ElasticaService $elasticaService)
     {
         $this->dataService = $dataService;
         $this->contentTypeService = $contentTypeService;
+        $this->logger = $logger;
+        $this->searchService = $searchService;
+        $this->elasticaService = $elasticaService;
     }
 
     /**
-     * @param string $type
-     * @param string $ouuid
-     * @param int    $revisionId
-     * @param int    $compareId
-     *
-     * @return Response
-     *
-     * @throws NonUniqueResultException
-     * @throws NoResultException
+     * @param int|false $revisionId
+     * @param int|false $compareId
      *
      * @Route("/data/revisions/{type}:{ouuid}/{revisionId}/{compareId}", defaults={"revisionId"=false, "compareId"=false}, name="data.revisions")
      * @Route("/data/revisions/{type}:{ouuid}/{revisionId}/{compareId}", defaults={"revisionId"=false, "compareId"=false}, name="ems_content_revisions_view")
      */
-    public function revisionsDataAction(Request $request, string $type, string $ouuid, int $revisionId, int $compareId,  LoggerInterface $logger, SearchService $searchService, ElasticaService $elasticaService)
+    public function revisionsDataAction(Request $request, string $type, string $ouuid, $revisionId, $compareId): Response
     {
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
@@ -70,8 +71,11 @@ class DetailController extends AbstractController
         if (!$contentTypes || 1 != \count($contentTypes)) {
             throw new NotFoundHttpException('Content Type not found');
         }
-        /** @var ContentType $contentType */
+
         $contentType = $contentTypes[0];
+        if (!$contentType instanceof ContentType) {
+            throw new NotFoundHttpException('Content Type not found');
+        }
 
         $defaultEnvironment = $contentType->getEnvironment();
         if (null === $defaultEnvironment) {
@@ -98,59 +102,63 @@ class DetailController extends AbstractController
                 'contentType' => $contentType,
             ]);
         } else {
-            $revision = $repository->findOneById($revisionId);
+            $revision = $repository->findOneById((int) $revisionId);
+        }
+
+        if (!$revision instanceof Revision) {
+            throw new NotFoundException('Revision not found!');
         }
 
         $compareData = false;
         if ($compareId) {
-            $logger->warning('log.data.revision.compare_beta', []);
+            $this->logger->warning('log.data.revision.compare_beta', []);
 
             try {
                 $compareRevision = $repository->findOneById($compareId);
                 $compareData = $compareRevision->getRawData();
                 if ($revision->getContentType() === $compareRevision->getContentType() && $revision->getOuuid() == $compareRevision->getOuuid()) {
                     if ($compareRevision->getCreated() <= $revision->getCreated()) {
-                        $logger->notice('log.data.revision.compare', [
+                        $this->logger->notice('log.data.revision.compare', [
                             EmsFields::LOG_OUUID_FIELD => $revision->getOuuid(),
-                            EmsFields::LOG_CONTENTTYPE_FIELD => $revision->getContentType()->getName(),
+                            EmsFields::LOG_CONTENTTYPE_FIELD => $revision->getContentTypeName(),
                             EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
                             'compare_revision_id' => $compareRevision->getId(),
                         ]);
                     } else {
-                        $logger->warning('log.data.revision.compare_more_recent', [
+                        $this->logger->warning('log.data.revision.compare_more_recent', [
                             EmsFields::LOG_OUUID_FIELD => $revision->getOuuid(),
-                            EmsFields::LOG_CONTENTTYPE_FIELD => $revision->getContentType()->getName(),
+                            EmsFields::LOG_CONTENTTYPE_FIELD => $revision->getContentTypeName(),
                             EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
                             'compare_revision_id' => $compareRevision->getId(),
                         ]);
                     }
                 } else {
-                    $logger->notice('log.data.document.compare', [
+                    $this->logger->notice('log.data.document.compare', [
                         EmsFields::LOG_OUUID_FIELD => $revision->getOuuid(),
-                        EmsFields::LOG_CONTENTTYPE_FIELD => $revision->getContentType()->getName(),
+                        EmsFields::LOG_CONTENTTYPE_FIELD => $revision->getContentTypeName(),
                         EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
-                        'compare_contenttype' => $compareRevision->getContentType()->getName(),
+                        'compare_contenttype' => $compareRevision->getContentTypeName(),
                         'compare_ouuid' => $compareRevision->getOuuid(),
                         'compare_revision_id' => $compareRevision->getId(),
                     ]);
                 }
             } catch (\Throwable $e) {
-                $logger->warning('log.data.revision.compare_revision_not_found', [
+                $this->logger->warning('log.data.revision.compare_revision_not_found', [
                     EmsFields::LOG_OUUID_FIELD => $revision->getOuuid(),
-                    EmsFields::LOG_CONTENTTYPE_FIELD => $revision->getContentType()->getName(),
+                    EmsFields::LOG_CONTENTTYPE_FIELD => $revision->getContentTypeName(),
                     EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
                     'compare_revision_id' => $compareId,
                 ]);
             }
         }
 
-        if (!$revision || $revision->getOuuid() != $ouuid || $revision->getContentType() !== $contentType || $revision->getDeleted()) {
+        if ($revision->getOuuid() != $ouuid || $revision->getContentType() !== $contentType || $revision->getDeleted()) {
             throw new NotFoundHttpException('Revision not found');
         }
 
         $this->dataService->testIntegrityInIndexes($revision);
 
-        $this->loadAutoSavedVersion($revision, $logger);
+        $this->loadAutoSavedVersion($revision, $this->logger);
 
         $page = $request->query->get('page', 1);
 
@@ -160,9 +168,7 @@ class DetailController extends AbstractController
         $firstElemOfPage = $repository->firstElemOfPage($page);
         /** @var EnvironmentRepository $envRepository */
         $envRepository = $em->getRepository('EMSCoreBundle:Environment');
-        $availableEnv = $envRepository->findAvailableEnvironements(
-            $revision->getContentType()->getEnvironment()
-        );
+        $availableEnv = $envRepository->findAvailableEnvironements($defaultEnvironment);
 
         $form = $this->createForm(RevisionType::class, $revision, ['raw_data' => $revision->getRawData()]);
 
@@ -190,11 +196,11 @@ class DetailController extends AbstractController
         $searchForm->addFilter($filter);
 
         $searchForm->setMinimumShouldMatch(1);
-        $esSearch = $searchService->generateSearch($searchForm);
+        $esSearch = $this->searchService->generateSearch($searchForm);
         $esSearch->setSize(100);
         $esSearch->setSources([]);
 
-        $referrerResultSet = $elasticaService->search($esSearch);
+        $referrerResultSet = $this->elasticaService->search($esSearch);
         $referrerResponse = CommonResponse::fromResultSet($referrerResultSet);
 
         return $this->render('@EMSCore/data/revisions-data.html.twig', [
@@ -219,7 +225,7 @@ class DetailController extends AbstractController
         if (null != $revision->getAutoSave()) {
             $revision->setRawData($revision->getAutoSave());
             $logger->warning('log.data.revision.load_from_auto_save', [
-                EmsFields::LOG_CONTENTTYPE_FIELD => $revision->getContentType()->getName(),
+                EmsFields::LOG_CONTENTTYPE_FIELD => $revision->getContentTypeName(),
                 EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_READ,
                 EmsFields::LOG_OUUID_FIELD => $revision->getOuuid(),
                 EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
