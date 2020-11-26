@@ -1,0 +1,75 @@
+{% extends '@EMSCore/Revision/Detail/base.html.twig' %}
+{% trans_default_domain 'EMSCoreBundle' %}
+
+{% block javascripts %}
+	<script>
+
+
+
+		window.addEventListener('DOMContentLoaded', (event) => {
+			$('#test-table').DataTable();
+		});
+
+	</script>
+
+{% endblock %}
+
+{% block revisionDetail %}
+	<div class="row">
+		<div class="col-md-12">
+			{{ block('tabs') }}
+			<div class="box box-primary">
+				<div class="box-body">
+					<table id="test-table" class="table table-bordered table-hover">
+						<thead>
+							<tr>
+								<td>col</td>
+								<td>col</td>
+								<td>col</td>
+								<td>col</td>
+								<td>col</td>
+							</tr>
+						</thead>
+						<tbody>
+						<tr>
+							<td>test</td>
+							<td>test</td>
+							<td>test</td>
+							<td>test</td>
+							<td>test</td>
+						</tr>
+						<tr>
+							<td>test</td>
+							<td>test</td>
+							<td>test</td>
+							<td>test</td>
+							<td>test</td>
+						</tr>
+						<tr>
+							<td>test</td>
+							<td>test</td>
+							<td>test</td>
+							<td>test</td>
+							<td>test</td>
+						</tr>
+						<tr>
+							<td>test</td>
+							<td>test</td>
+							<td>test</td>
+							<td>test</td>
+							<td>test</td>
+						</tr>
+						<tr>
+							<td>test</td>
+							<td>test</td>
+							<td>test</td>
+							<td>test</td>
+							<td>test</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

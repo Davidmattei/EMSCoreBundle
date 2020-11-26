@@ -186,7 +186,7 @@ class DetailController extends AbstractController
         $referrerResultSet = $this->elasticaService->search($esSearch);
         $referrerResponse = CommonResponse::fromResultSet($referrerResultSet);
 
-        return $this->render('@EMSCore/data/revisions-data.html.twig', [
+        return $this->render('@EMSCore/Revision/Detail/detail.html.twig', [
             'revision' => $revision,
             'revisionsSummary' => $revisionsSummary,
             'availableEnv' => $availableEnv,

@@ -1,0 +1,58 @@
+{% extends '@EMSCore/base.html.twig' %}{% trans_default_domain 'EMSCoreBundle' %}
+
+{% set title = revision.ouuid %}
+{% if revision.contentType.labelField and attribute(revision.rawData, revision.contentType.labelField) is defined %}
+	{% set title = attribute(revision.rawData, revision.contentType.labelField) %}
+{% endif %}
+	
+{% block title %}
+	Revisions of {{ revision.contentType.singularName }} : {{ title }}
+{% endblock %}
+
+{% block pagetitle %}
+	<i class="{% if revision.contentType.icon %}{{ revision.contentType.icon }} {% else %} fa fa-question {% endif %} "></i>
+	Revisions of {{ revision.contentType.singularName }} :  {{ title }}
+{% endblock %}
+
+{% block subtitle %}
+	<small>
+		{% if revision.draft %}
+			<i class="fa fa-fire"></i>
+			This is a draft in progress
+		{% elseif not revision.endTime %}
+			<i class="fa fa-thumbs-up"></i>
+			You are viewing the last revision
+		{% else %}
+			<i class="fa fa-clock-o"></i>
+			This is a revision from the past
+		{% endif %}
+	</small>
+{% endblock %}
+
+{% block tabs %}
+	{% set currentRoute = app.request.get('_route') %}
+	{% set tabs = [
+		{ 'label': 'Revision', 'route': 'data.revisions',  'route_params' : {
+			'revisionId': revision.id,
+			'type': revision.contentType.name,
+			'ouuid': revision.ouuid
+		} },
+		{ 'label': 'Other revisions', 'route': 'revision.revisions', 'route_params': {'id': revision.id} }
+	] %}
+	<ul class="nav nav-tabs">
+		{% for tab in tabs %}
+			<li role="presentation" {{-  tab.route == currentRoute ? 'class="active"' -}}>
+				<a href="{{ path(tab.route, tab.route_params) }}">{{ tab.label }}</a>
+			</li>
+		{% endfor %}
+	</ul>
+{% endblock %}
+
+{% block body %}
+	{% block revisionDetail %}{% endblock %}
+	{% if revision.draft %}
+		{% include '@EMSCore/app/menu.html.twig' with { 'item':  'data-draft-' ~ revision.contentType.id } %}
+	{% else %}
+		{% include '@EMSCore/app/menu.html.twig' with { 'item':  'data-index-' ~ revision.contentType.id } %}
+	{% endif %}
+{% endblock %}	
