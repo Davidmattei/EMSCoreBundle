@@ -199,14 +199,18 @@
       </div>
     </nav>
   </header>
+
+    {% set UI = UI() %}
+
+    {% dump(UI) %}
   
-		{% if app.user %}
-		  	{{ render(controller('EMS\\CoreBundle\\Controller\\TwigElementsController::sideMenuAction')) }}
-		{% else %}
-            {% include '@EMSCore/elements/side-menu.html.twig' with {
-				'contentTypes': get_content_types()
-			} %}
-        {% endif %} 
+{#		{% if app.user %}#}
+{#		  	{{ render(controller('EMS\\CoreBundle\\Controller\\TwigElementsController::sideMenuAction')) }}#}
+{#		{% else %}#}
+{#            {% include '@EMSCore/elements/side-menu.html.twig' with {#}
+{#				'contentTypes': get_content_types()#}
+{#			} %}#}
+{#        {% endif %} #}
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->

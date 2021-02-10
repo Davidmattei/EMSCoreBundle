@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        https://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="false" />
+
+        <service id="ems_core.core_ui" class="EMS\CoreBundle\Core\UI\UI">
+            <argument type="service" id="ems_core.core_ui_sidebar"/>
+        </service>
+        <service id="ems_core.core_ui_sidebar" class="EMS\CoreBundle\Core\UI\Sidebar\Sidebar">
+            <argument type="service" id="twig"/>
+        </service>
+
+        <service id="ems_core.twig.ui_extension" class="EMS\CoreBundle\Twig\UIExtension">
+            <tag name="twig.extension"/>
+        </service>
+        <service id="ems_core.twig.ui_runtime" class="EMS\CoreBundle\Twig\UIRuntime">
+            <argument type="service" id="ems_core.core_ui"/>
+            <tag name="twig.runtime" />
+        </service>
+    </services>
+</container>
