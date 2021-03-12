@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        https://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="EMS\CoreBundle\Core\Table\TableManager" alias="ems_core.table.manager" />
+        <service id="ems_core.table.manager" class="EMS\CoreBundle\Core\Table\TableManager" >
+            <argument type="tagged_iterator" tag="ems_core.table"/>
+            <argument type="service" id="router"/>
+        </service>
+        <service id="EMS\CoreBundle\Controller\TableController" public="true">
+            <argument type="service" id="ems_core.table.manager" />
+        </service>
+        <service id="ems_core.table.twig" class="EMS\CoreBundle\Twig\TableRuntime" >
+            <argument type="service" id="twig"/>
+            <tag name="twig.runtime" priority="-2000"/>
+        </service>
+
+        <service id="ems_core.table.content_type.action" class="EMS\CoreBundle\Table\ContentType\ActionTable" >
+            <argument type="service" id="ems.repository.template" />
+            <tag name="ems_core.table"/>
+        </service>
+        <service id="ems_core.table.content_type.view" class="EMS\CoreBundle\Table\ContentType\ViewTable" >
+            <argument type="service" id="ViewRepository" />
+            <tag name="ems_core.table"/>
+        </service>
+
+        <service id="ems_core.table.revision" class="EMS\CoreBundle\Table\RevisionTable" >
+            <argument type="service" id="EMS\CoreBundle\Repository\RevisionRepository" />
+            <tag name="ems_core.table"/>
+        </service>
+    </services>
+</container>

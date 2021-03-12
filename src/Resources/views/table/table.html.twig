@@ -1,0 +1,30 @@
+{% block table %}
+    {# @var table EMS\CoreBundle\Core\Table\TableInterface #}
+    <div class="box">
+        <div class="box-body">
+            {% set attributes = table.attributes %}
+            <table class="core-data-table table table-striped table-bordered" style="width:100%"
+                 {%- for attrname, attrvalue in table.attributes -%} {{ attrname }}="{{ attrvalue }}" {%- endfor -%}
+{#                data-columns="{{ table.columns.config|json_encode }}"#}
+{#                {%- if table.type.isAjax -%}#}
+{#                    {% set ajax = {'url': path('ems.table.data', {'name': table.type.name }) } %}#}
+{#                    data-ajax="{{ ajax|json_encode }}"{%- endif -%}#}
+            >
+                <thead>
+                <tr>
+                    {% for column in table.columns %}<th>{{ column.name }}</th>{% endfor %}
+                </tr>
+                </thead>
+                <tbody>
+                    {% for row in table.data %}
+                        <tr>
+                            {% for col in table.columns %}
+                                <td>{{ attribute(row, col.name)|default }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

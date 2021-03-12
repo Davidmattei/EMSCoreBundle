@@ -146,6 +146,7 @@ class AppExtension extends AbstractExtension
             new TwigFunction('emsco_uuid', [Uuid::class, 'uuid4']),
             new TwigFunction('path', [$this, 'getPath'], ['is_safe_callback' => [$this->routingExtension, 'isUrlGenerationSafe']]),
             new TwigFunction('url', [$this, 'getUrl'], ['is_safe_callback' => [$this->routingExtension, 'isUrlGenerationSafe']]),
+            new TwigFunction('emsco_table', [TableRuntime::class, 'render'], ['is_safe' => ['html']])
         ];
     }
 

@@ -1,0 +1,16 @@
+{% extends '@EMSCore/base.html.twig' %}{% trans_default_domain 'EMSCoreBundle' %}
+
+{% block title %}Test{% endblock %}
+{% block pagetitle %}Test{% endblock %}
+
+{% block body %}
+
+
+
+    <h3>All revisions (DB)</h3>
+    {{ emsco_table(revisionsTable) }}
+
+    <h3>Example actions company (DB)</h3>
+    {{ emsco_table(actionTable) }}
+
+{% endblock %}

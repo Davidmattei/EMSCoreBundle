@@ -4,6 +4,7 @@ import ace from 'ace-builds/src-noconflict/ace';
 require('icheck');
 import JsonMenuEditor from './JsonMenuEditor';
 import FileUploader from "./FileUploader";
+import Table from './table';
 
 
 export default class EmsListeners {
@@ -37,6 +38,12 @@ export default class EmsListeners {
         this.addFieldsToDisplayByValue();
         this.addFileUploaderListerners();
         this.addA2LixLibSfCollection();
+        this.addTableListeners();
+    }
+
+    addTableListeners() {
+        const table = new Table();
+        jquery(this.target).find(".core-data-table").each(function() { table.dataTable(this); });
     }
 
     addFieldsToDisplayByValue() {
